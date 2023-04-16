@@ -24,11 +24,11 @@ def TrainDelays():
 
     #INPUT STATION
     start_station = driver.find_element(By.ID, 'from-station')
-    start_station.send_keys("KRAKÓW GŁÓWNY")
+    start_station.send_keys("WRONKI")
 
     #DESTINATION STATION
     destination_station = driver.find_element(By.ID, 'to-station')
-    destination_station.send_keys("GDAŃSK GŁÓWNY")
+    destination_station.send_keys("POZNAŃ GŁÓWNY")
 
     #SEARCH BUTTON
     search_button = driver.find_element(By.ID,'singlebutton')
@@ -44,10 +44,10 @@ def TrainDelays():
     on_schedule_train_list = []
 
     for i, train in enumerate(delayed_train):
-        delayed_train_list.append('0')
         if train.find_elements(By.CSS_SELECTOR, "span[class='rtinfo']"):
-            print(f"Train with delay found at index {i}")
             delayed_train_list.append(train.text)
+        else:
+            delayed_train_list.append('ok. +0 min.')
 
     for train in on_schedule_train:
         if train.find_elements(By.CSS_SELECTOR, "span[class='wcag-hide']"):
