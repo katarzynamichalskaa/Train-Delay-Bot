@@ -1,3 +1,14 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from table2ascii import table2ascii as t2a, PresetStyle
+import time
+
+
+def TrainDelays(a: str, b:str):
+
     options = Options()
     options.add_experimental_option("detach", True)
 
@@ -54,8 +65,6 @@
 
     last_list = list(zip(result_delayed, result_on_schedule_train_list))
 
-    #table_of_data = pd.DataFrame(last_list, columns=['Arrival delay | Departure delay             ', 'Scheduled arrival | Scheduled departure'])
-
     table_of_data = t2a(
         header=["Delay ", "Scheduled"],
         body=last_list,
@@ -65,8 +74,6 @@
     driver.quit()
 
     return f"```\n{table_of_data}\n```"
-
-
 
 
 
