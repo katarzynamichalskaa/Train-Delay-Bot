@@ -3,10 +3,11 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+import pandas as pd
 import time
 
 
-def TrainDelays():
+def TrainDelays(a: str, b:str):
 
     options = Options()
     options.add_experimental_option("detach", True)
@@ -17,18 +18,17 @@ def TrainDelays():
     driver.get("https://rozklad-pkp.pl/")
     driver.maximize_window()
 
-
     #COOKIE BUTTON
     cookie_button = driver.find_element(By.CLASS_NAME, 'css-47sehv')
     cookie_button.click()
 
     #INPUT STATION
     start_station = driver.find_element(By.ID, 'from-station')
-    start_station.send_keys("WRONKI")
+    start_station.send_keys(a)
 
     #DESTINATION STATION
     destination_station = driver.find_element(By.ID, 'to-station')
-    destination_station.send_keys("POZNAŃ GŁÓWNY")
+    destination_station.send_keys(b)
 
     #SEARCH BUTTON
     search_button = driver.find_element(By.ID,'singlebutton')
@@ -43,10 +43,13 @@ def TrainDelays():
     delayed_train_list = []
     on_schedule_train_list = []
 
-    for i, train in enumerate(delayed_train):
-        if train.find_elements(By.CSS_SELECTOR, "span[class='rtinfo']"):
+    for train in delayed_train:
+        rtinfo_elements = train.find_elements(By.CLASS_NAME, 'rtinfo')
+
+        if rtinfo_elements:
             delayed_train_list.append(train.text)
-        else:
+
+        if not rtinfo_elements:
             delayed_train_list.append('ok. +0 min.')
 
     for train in on_schedule_train:
@@ -61,8 +64,18 @@ def TrainDelays():
         result_on_schedule_train_list.append((on_schedule_train_list[i], on_schedule_train_list[i + 1]))
 
     last_list = list(zip(result_delayed, result_on_schedule_train_list))
-    print(last_list)
+    
+    table_of_data = pd.DataFrame(last_list, columns=['Arrival delay | Departure delay | ', 'Scheduled arrival | Scheduled departure'])
+
     driver.quit()
 
-    return last_list
+    return table_of_data
+
+
+
+
+
+
+
+
 
