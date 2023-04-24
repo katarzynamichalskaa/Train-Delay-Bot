@@ -63,10 +63,10 @@ def TrainDelays(a: str, b:str):
         result_delayed.append((delayed_train_list[i], delayed_train_list[i+1]))
         result_on_schedule_train_list.append((on_schedule_train_list[i], on_schedule_train_list[i + 1]))
 
-    last_list = list(zip(result_delayed, result_on_schedule_train_list))
+    last_list = list(zip(result_on_schedule_train_list, result_delayed))
 
     table_of_data = t2a(
-        header=["Delay ", "Scheduled"],
+        header=["Scheduled", "Delay "],
         body=last_list,
         style = PresetStyle.thin_compact
     )
@@ -74,6 +74,11 @@ def TrainDelays(a: str, b:str):
     driver.quit()
 
     return f"```\n{table_of_data}\n```"
+
+
+
+
+
 
 
 
