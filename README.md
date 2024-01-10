@@ -17,7 +17,8 @@ TrainDelayBot is a Discord bot designed to provide real-time train delay informa
 - **Discord Integration:** The bot utilizes the Discord library for Python to handle message interactions and respond to user commands.
 
 ## Usage
-Example usage.
+Example usage
+
 ![image](https://user-images.githubusercontent.com/92379328/234039247-010f88ef-863d-4d66-a84a-7414e0b967d2.png)
 
 
